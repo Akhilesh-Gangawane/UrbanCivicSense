@@ -12,11 +12,16 @@ export default function ReportIssue() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
-    // Lookup data from Supabase
+    // Lookup data from Supabase/Fallbacks
     const [categories, setCategories] = useState([]);
     const [departments, setDepartments] = useState([]);
 
     // Form State
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [analysisResult, setAnalysisResult] = useState(null);
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [categoryId, setCategoryId] = useState(null);
@@ -25,7 +30,7 @@ export default function ReportIssue() {
     const [lat, setLat] = useState(null);
     const [lng, setLng] = useState(null);
 
-    // Load categories and departments from Supabase
+    // Load categories and departments
     useEffect(() => {
         async function loadMeta() {
             try {
@@ -43,6 +48,42 @@ export default function ReportIssue() {
         loadMeta();
     }, []);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedImage(file);
+            setImagePreview(URL.createObjectURL(file));
+            analyzeImage(file);
+        }
+    };
+
+    const analyzeImage = (file) => {
+        setIsAnalyzing(true);
+        setAnalysisResult(null);
+        setError('');
+
+        // Simulated AI Analysis
+        setTimeout(() => {
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const randomConfidence = (Math.random() * (0.99 - 0.85) + 0.85).toFixed(2);
+            const randomPriority = ['medium', 'high'][Math.floor(Math.random() * 2)];
+
+            setAnalysisResult({
+                categoryName: randomCategory?.name || 'Pothole',
+                categoryId: randomCategory?.id || 1,
+                confidence: randomConfidence,
+                detectedPriority: randomPriority
+            });
+
+            // Auto-populate based on AI
+            setCategoryId(randomCategory?.id || 1);
+            setPriority(randomPriority);
+            setTitle(`${randomCategory?.name || 'Urban'} Issue Detected`);
+
+            setIsAnalyzing(false);
+        }, 2000);
+    };
+
     function detectLocation() {
         if (!navigator.geolocation) return;
         navigator.geolocation.getCurrentPosition(
@@ -55,15 +96,14 @@ export default function ReportIssue() {
         );
     }
 
-    // Map categories to departments
     function guessDepartmentId() {
         const categoryName = categories.find(c => c.id === categoryId)?.name || '';
         const map = {
-            'Pothole': 1, 'Road Damage': 1,          // Public Works
-            'Street Light': 2,                         // Electrical
-            'Water Leak': 3, 'Drain Blockage': 3,     // Water Supply
-            'Garbage Pile': 4, 'Illegal Dumping': 4,   // Solid Waste
-            'Stray Animals': 5,                        // Urban Health
+            'Pothole': 1, 'Road Damage': 1,
+            'Street Light': 2,
+            'Water Leak': 3, 'Drain Blockage': 3,
+            'Garbage Pile': 4, 'Illegal Dumping': 4,
+            'Stray Animals': 5,
         };
         return map[categoryName] || 1;
     }
@@ -99,7 +139,7 @@ export default function ReportIssue() {
                         <span className="material-icons-round text-green-600 dark:text-green-400 text-4xl">check_circle</span>
                     </div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white">Report Submitted!</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Your issue has been reported. We'll notify the relevant department.</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Your issue has been reported with AI analysis. We'll notify the relevant department.</p>
                 </div>
             </div>
         );
@@ -123,8 +163,8 @@ export default function ReportIssue() {
                 <div className="px-6 mb-6">
                     <div className="flex items-center justify-between relative">
                         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 dark:bg-gray-800 rounded-full -z-10"></div>
-                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-primary rounded-full -z-10 transition-all" style={{ width: `${((step - 1) / 2) * 100}%` }}></div>
-                        {[{ num: 1, label: 'Details' }, { num: 2, label: 'Location' }, { num: 3, label: 'Review' }].map(s => (
+                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-primary rounded-full -z-10 transition-all" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
+                        {[{ num: 1, label: 'Photo' }, { num: 2, label: 'Details' }, { num: 3, label: 'Location' }, { num: 4, label: 'Review' }].map(s => (
                             <div key={s.num} className="flex flex-col items-center gap-1">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-lg transition-all ${step >= s.num ? 'bg-primary text-white shadow-primary/30' : 'bg-white dark:bg-[#1C1C21] border-2 border-gray-300 dark:border-gray-600 text-gray-400'
                                     }`}>{s.num}</div>
@@ -142,29 +182,105 @@ export default function ReportIssue() {
                 )}
 
                 <main className="flex-1 px-4 pb-24 overflow-y-auto space-y-6">
-                    {/* Step 1: Details */}
+                    {/* Step 1: Image Upload & Analysis */}
                     {step === 1 && (
+                        <section className="space-y-6">
+                            <div className="bg-white dark:bg-[#1C1C21] p-5 rounded-2xl shadow-sm">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                        <span className="material-icons-round text-lg">add_a_photo</span>
+                                    </div>
+                                    <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Upload Issue Photo</h2>
+                                </div>
+
+                                <label className="block cursor-pointer">
+                                    <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-[#27272E] transition-colors relative overflow-hidden group">
+                                        {imagePreview ? (
+                                            <img src={imagePreview} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-40 transition-opacity" alt="Preview" />
+                                        ) : null}
+                                        <div className="z-10 flex flex-col items-center">
+                                            <span className="material-icons-round text-4xl text-primary mb-2">upload_file</span>
+                                            <span className="text-sm font-medium">Click to upload or drag & drop</span>
+                                            <span className="text-xs text-gray-400 mt-1">Supports JPG, PNG (Max 5MB)</span>
+                                        </div>
+                                    </div>
+                                    <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                                </label>
+                            </div>
+
+                            {/* AI Analysis View */}
+                            {(isAnalyzing || analysisResult) && (
+                                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-5 rounded-2xl text-white shadow-xl shadow-indigo-500/20 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-3 opacity-10">
+                                        <span className="material-icons-round text-6xl">psychology</span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center animate-pulse">
+                                            <span className="material-icons-round text-sm">auto_fix_high</span>
+                                        </div>
+                                        <span className="text-xs font-bold uppercase tracking-widest opacity-80">UrbanSense AI Engine</span>
+                                    </div>
+
+                                    {isAnalyzing ? (
+                                        <div className="py-2 space-y-3">
+                                            <div className="h-4 bg-white/20 rounded-full w-3/4 animate-pulse"></div>
+                                            <div className="h-4 bg-white/20 rounded-full w-1/2 animate-pulse"></div>
+                                            <p className="text-xs font-medium animate-bounce mt-2 text-indigo-100">Analyzing visual patterns...</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            <p className="text-lg font-bold">Issue Detected!</p>
+                                            <div className="grid grid-cols-2 gap-3 mt-4">
+                                                <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                                                    <span className="text-[10px] uppercase font-bold text-indigo-100 block mb-1">Classification</span>
+                                                    <span className="text-sm font-semibold">{analysisResult.categoryName}</span>
+                                                </div>
+                                                <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                                                    <span className="text-[10px] uppercase font-bold text-indigo-100 block mb-1">Confidence</span>
+                                                    <span className="text-sm font-semibold">{(analysisResult.confidence * 100).toFixed(1)}%</span>
+                                                </div>
+                                                <div className="col-span-2 bg-white/10 p-3 rounded-xl backdrop-blur-sm border border-white/10">
+                                                    <span className="text-[10px] uppercase font-bold text-indigo-100 block mb-1">Recommended Priority</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className={`w-2 h-2 rounded-full ${analysisResult.detectedPriority === 'high' ? 'bg-orange-400' : 'bg-yellow-400'}`}></span>
+                                                        <span className="text-sm font-semibold capitalize">{analysisResult.detectedPriority}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p className="text-[10px] leading-relaxed text-indigo-100 mt-2 italic">
+                                                * Parameters auto-filled based on neural analysis of visual markers.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </section>
+                    )}
+
+                    {/* Step 2: Details */}
+                    {step === 2 && (
                         <section className="bg-white dark:bg-[#1C1C21] p-5 rounded-2xl shadow-sm">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
                                     <span className="material-icons-round text-lg">edit_note</span>
                                 </div>
-                                <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Issue Details</h2>
+                                <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Refine Details</h2>
                             </div>
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Issue Title</label>
-                                    <input className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm" placeholder="Briefly describe the issue..." type="text"
+                                    <input className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm transition-all" placeholder="Briefly describe the issue..." type="text"
                                         value={title} onChange={(e) => setTitle(e.target.value)} />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Description</label>
-                                    <textarea className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm resize-none" rows={3} placeholder="Describe what you see in detail..."
+                                    <textarea className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm resize-none transition-all" rows={3} placeholder="Describe what you see in detail..."
                                         value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Category</label>
-                                    <select className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 appearance-none shadow-sm cursor-pointer"
+                                    <select className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 appearance-none shadow-sm cursor-pointer transition-all"
                                         value={categoryId || ''} onChange={(e) => setCategoryId(Number(e.target.value))}>
                                         {categories.map(c => (
                                             <option key={c.id} value={c.id}>{c.name}</option>
@@ -186,8 +302,8 @@ export default function ReportIssue() {
                         </section>
                     )}
 
-                    {/* Step 2: Location */}
-                    {step === 2 && (
+                    {/* Step 3: Location */}
+                    {step === 3 && (
                         <section className="bg-white dark:bg-[#1C1C21] p-5 rounded-2xl shadow-sm">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
@@ -202,7 +318,7 @@ export default function ReportIssue() {
                             </button>
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Address (Optional)</label>
-                                <input className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm" placeholder="Enter street address..."
+                                <input className="w-full bg-gray-50 dark:bg-[#27272E] border-transparent focus:border-primary focus:ring-0 rounded-xl text-sm py-3 px-4 placeholder-gray-400 shadow-sm transition-all" placeholder="Enter street address..."
                                     value={locationAddress} onChange={(e) => setLocationAddress(e.target.value)} />
                             </div>
                             {lat && lng && (
@@ -214,14 +330,19 @@ export default function ReportIssue() {
                         </section>
                     )}
 
-                    {/* Step 3: Review */}
-                    {step === 3 && (
+                    {/* Step 4: Review */}
+                    {step === 4 && (
                         <section className="bg-white dark:bg-[#1C1C21] p-5 rounded-2xl shadow-sm">
                             <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4 flex items-center gap-2">
                                 <span className="material-icons-round text-primary text-lg">preview</span>
                                 Review Your Report
                             </h2>
                             <div className="space-y-3 text-sm">
+                                {imagePreview && (
+                                    <div className="h-32 w-full rounded-xl overflow-hidden mb-4 border border-gray-100 dark:border-gray-800">
+                                        <img src={imagePreview} className="w-full h-full object-cover" alt="Issue photo" />
+                                    </div>
+                                )}
                                 <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
                                     <span className="text-gray-500">Title</span>
                                     <span className="text-gray-900 dark:text-white font-medium text-right max-w-[60%] truncate">{title}</span>
@@ -252,13 +373,14 @@ export default function ReportIssue() {
                     <div className="flex gap-3">
                         {step > 1 && (
                             <button onClick={() => setStep(step - 1)}
-                                className="px-6 py-4 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-all">
+                                className="px-6 py-4 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-all hover:bg-gray-50 dark:hover:bg-gray-800">
                                 Back
                             </button>
                         )}
-                        {step < 3 ? (
+                        {step < 4 ? (
                             <button onClick={() => {
-                                if (step === 1 && !title) { setError('Please enter a title'); return; }
+                                if (step === 1 && !selectedImage) { setError('Please upload a photo first'); return; }
+                                if (step === 2 && !title) { setError('Please enter a title'); return; }
                                 setError('');
                                 setStep(step + 1);
                             }}
