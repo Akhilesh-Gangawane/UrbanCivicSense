@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UrbanSim AI - Admin Map View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF6D5A", // A vibrant accent color for primary actions
+                        "background-light": "#F7F5F0", // Cream/Off-white
+                        "background-dark": "#1C1C1E", // Dark charcoal
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#2C2C2E",
+                        "text-light": "#1F2937",
+                        "text-dark": "#E5E7EB",
+                        "water": "#3B82F6",
+                        "electricity": "#EAB308",
+                        "roads": "#EF4444",
+                        "sanitation": "#22C55E",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        #map {
+            height: 100vh;
+            width: 100%;
+            z-index: 0;
+        }
+        .custom-pin {
+            background-color: transparent;
+            border: none;
+        }
+        .pin-inner {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 2px solid white;
+            transition: transform 0.2s;
+        }
+        .pin-inner:hover {
+            transform: scale(1.1);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass-panel {
+            background: rgba(28, 28, 30, 0.85);
+        }.hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans h-screen w-screen overflow-hidden relative transition-colors duration-300">
+<div class="absolute inset-0 bg-gray-200 dark:bg-gray-800" id="map"></div>
+<div class="absolute top-0 left-0 right-0 z-10 px-4 pt-12 pb-4">
+<div class="glass-panel rounded-xl shadow-lg p-3 flex items-center space-x-3 border border-gray-200/50 dark:border-gray-700/50">
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400">
+<span class="material-icons-round">menu</span>
+</button>
+<div class="flex-1 relative">
+<span class="material-icons-round absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-sm pl-8 text-gray-800 dark:text-white placeholder-gray-400 h-9 p-0" placeholder="Search location or ID..." type="text"/>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md">
+<span class="material-icons-round text-sm">notifications</span>
+</button>
+</div>
+<div class="mt-3 flex space-x-2 overflow-x-auto hide-scrollbar pb-2">
+<button class="bg-surface-light dark:bg-surface-dark px-3 py-1.5 rounded-full shadow-sm text-xs font-medium border border-gray-200 dark:border-gray-700 whitespace-nowrap flex items-center space-x-1">
+<span class="material-icons-round text-sm">filter_list</span>
+<span>All Status</span>
+</button>
+<button class="bg-surface-light dark:bg-surface-dark px-3 py-1.5 rounded-full shadow-sm text-xs font-medium border border-gray-200 dark:border-gray-700 whitespace-nowrap text-water border-water/30 bg-water/10">
+                Water
+            </button>
+<button class="bg-surface-light dark:bg-surface-dark px-3 py-1.5 rounded-full shadow-sm text-xs font-medium border border-gray-200 dark:border-gray-700 whitespace-nowrap text-electricity border-electricity/30">
+                Electricity
+            </button>
+<button class="bg-surface-light dark:bg-surface-dark px-3 py-1.5 rounded-full shadow-sm text-xs font-medium border border-gray-200 dark:border-gray-700 whitespace-nowrap text-roads border-roads/30">
+                Roads
+            </button>
+<button class="bg-surface-light dark:bg-surface-dark px-3 py-1.5 rounded-full shadow-sm text-xs font-medium border border-gray-200 dark:border-gray-700 whitespace-nowrap text-sanitation border-sanitation/30">
+                Sanitation
+            </button>
+</div>
+</div>
+<div class="absolute right-4 top-32 z-10 flex flex-col space-y-3">
+<div class="glass-panel p-2 rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 flex flex-col items-center space-y-3">
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative group" title="High Urgency">
+<span class="material-icons-round text-red-500">warning</span>
+<span class="absolute right-9 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">High Urgency</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative group" title="Pending">
+<span class="material-icons-round text-yellow-500">hourglass_empty</span>
+<span class="absolute right-9 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Pending</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 relative group" title="Resolved">
+<span class="material-icons-round text-green-500">check_circle</span>
+<span class="absolute right-9 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Resolved</span>
+</button>
+</div>
+<div class="glass-panel p-2 rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 flex flex-col items-center space-y-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
+<span class="material-icons-round">my_location</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
+<span class="material-icons-round">layers</span>
+</button>
+</div>
+</div>
+<div class="absolute bottom-24 left-4 right-4 z-20 transform transition-transform duration-300 translate-y-0" id="issue-card">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-2xl p-4 border border-gray-100 dark:border-gray-700/50 flex flex-col space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-roads/10 flex items-center justify-center text-roads">
+<span class="material-icons-round">add_road</span>
+</div>
+<div>
+<h3 class="font-semibold text-sm text-gray-900 dark:text-white">Pothole on Main St.</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">ID: #RD-2049 • 2 mins ago</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[10px] font-bold uppercase tracking-wide rounded-md border border-red-200 dark:border-red-800">High Priority</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                Reported deep pothole causing traffic slowdown near the Central Library crossing. Citizen uploaded 2 photos.
+            </p>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
+<span class="block text-gray-400 mb-0.5">Assigned To</span>
+<div class="flex items-center space-x-1">
+<div class="w-4 h-4 rounded-full bg-gray-300 overflow-hidden">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ2EHePI__o4MzbLAvwUh0yK3iVCn5m7mwcKiKbiNRKMnVrR88iKyYj0-cD9QmWdRnmMc_JPtI0p9fRJgZcGfT2aT0drwhdVNvBXi3M5AFNKOHaLQIV984YnBJ1yNPiNSyhUeOpDke8fyB8MHXlOiSi7LHxYMKJOmWIca-_QBUEHANf7G8cEJNVYfa-0VV8N-QakCc_k0E1lAicS8aclot9g0q0qY5UiR-l3ckzg85OKKMwuiDWJCzGuNFvX6bgR1CqXzuAQXnorQ"/>
+</div>
+<span class="font-medium text-gray-700 dark:text-gray-200">Team Alpha</span>
+</div>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg">
+<span class="block text-gray-400 mb-0.5">ETA</span>
+<span class="font-medium text-gray-700 dark:text-gray-200">Today, 4:00 PM</span>
+</div>
+</div>
+<div class="flex space-x-2 pt-1">
+<button class="flex-1 bg-primary hover:bg-opacity-90 text-white text-sm font-medium py-2.5 rounded-lg shadow-sm transition-colors">
+                    Resolve
+                </button>
+<button class="flex-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 text-sm font-medium py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                    Details
+                </button>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 z-20 bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 pb-6 pt-3 px-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center text-center">
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 font-medium uppercase tracking-wider">Active</span>
+<span class="text-lg font-bold text-gray-900 dark:text-white">24</span>
+</div>
+<div class="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 font-medium uppercase tracking-wider">Critical</span>
+<span class="text-lg font-bold text-red-500">5</span>
+</div>
+<div class="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 font-medium uppercase tracking-wider">Solved</span>
+<span class="text-lg font-bold text-green-500">112</span>
+</div>
+</div>
+</div>
+<script>
+        // Initialize Leaflet Map
+        const map = L.map('map', {
+            zoomControl: false,
+            attributionControl: false
+        }).setView([40.7128, -74.0060], 14); // New York coordinates
+        // Dark/Light Mode Map Tile Logic
+        const lightTiles = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        let tileLayer = L.tileLayer(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? darkTiles : lightTiles, {
+            maxZoom: 20
+        }).addTo(map);
+        // Listen for system theme changes to update map tiles
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            const newColorScheme = event.matches ? "dark" : "light";
+            map.removeLayer(tileLayer);
+            tileLayer = L.tileLayer(newColorScheme === "dark" ? darkTiles : lightTiles, { maxZoom: 20 }).addTo(map);
+        });
+        // Custom Icon Function
+        function createCustomIcon(colorClass, iconName) {
+            let bgColor = '';
+            if(colorClass === 'water') bgColor = '#3B82F6';
+            if(colorClass === 'electricity') bgColor = '#EAB308';
+            if(colorClass === 'roads') bgColor = '#EF4444';
+            if(colorClass === 'sanitation') bgColor = '#22C55E';
+            return L.divIcon({
+                className: 'custom-pin',
+                html: `<div class="pin-inner" style="background-color: ${bgColor};">
+                        <span class="material-icons-round text-white text-sm">${iconName}</span>
+                       </div>`,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+        }
+        // Add Dummy Markers
+        const locations = [
+            { lat: 40.7128, lng: -74.0060, type: 'roads', icon: 'add_road' }, // Center
+            { lat: 40.7150, lng: -74.0020, type: 'water', icon: 'water_drop' },
+            { lat: 40.7110, lng: -74.0090, type: 'electricity', icon: 'bolt' },
+            { lat: 40.7180, lng: -74.0050, type: 'sanitation', icon: 'delete' },
+            { lat: 40.7090, lng: -74.0030, type: 'roads', icon: 'add_road' },
+            { lat: 40.7140, lng: -74.0110, type: 'water', icon: 'water_drop' },
+        ];
+        locations.forEach(loc => {
+            L.marker([loc.lat, loc.lng], { icon: createCustomIcon(loc.type, loc.icon) }).addTo(map);
+        });
+        // Simulate interaction with the "Issue Card"
+        // In a real app, clicking a marker would update and show this card.
+        // Here we just keep it visible as per the design requirement.
+    </script>
+
+</body></html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Issue Timeline &amp; Details - UrbanSim AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF6D2C", // n8n orange inspired
+                        "primary-hover": "#E65A1F",
+                        "accent-purple": "#8D6AF3",
+                        "background-light": "#F3F4F6", 
+                        "background-dark": "#0B0B0F", // Deep dark background from screenshot
+                        "surface-dark": "#16161D", // Card background
+                        "surface-light": "#FFFFFF",
+                        "text-light": "#E0E0E0",
+                        "text-muted": "#9CA3AF"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(255, 109, 44, 0.15)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>.hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.text-gradient {
+            background: linear-gradient(90deg, #FF6D2C 0%, #FF9F43 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-purple {
+            background: linear-gradient(90deg, #8D6AF3 0%, #B8A0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }.timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 2rem;
+            bottom: -1rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #374151 50%, transparent 100%);
+            z-index: 0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-text-light font-body transition-colors duration-200 antialiased min-h-screen pb-20">
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-background-dark/80 border-b border-gray-200 dark:border-white/10 px-4 py-4">
+<div class="flex items-center justify-between">
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-gray-600 dark:text-gray-300">arrow_back</span>
+</button>
+<div class="text-center">
+<h1 class="text-sm font-medium text-gray-500 dark:text-gray-400">ID: #US-8921</h1>
+<p class="font-bold text-gray-900 dark:text-white text-base">Issue Details</p>
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-gray-600 dark:text-gray-300">share</span>
+</button>
+</div>
+</header>
+<main class="px-4 py-6 space-y-6 max-w-md mx-auto">
+<div class="space-y-2 text-center mb-6">
+<h2 class="text-2xl font-bold tracking-tight">
+<span class="text-gray-900 dark:text-white">Pothole on Main St.</span>
+</h2>
+<div class="flex items-center justify-center space-x-2">
+<span class="px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">High Priority</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">• 2 hrs ago</span>
+</div>
+</div>
+<div class="relative group">
+<div class="flex overflow-x-auto hide-scrollbar space-x-4 pb-4 snap-x">
+<div class="flex-none w-64 h-48 rounded-2xl overflow-hidden shadow-sm relative snap-center">
+<img alt="Damaged road surface" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Vn5WPuLrnYbOE8dL4aPRwyHS-wDrRV6NXHf20YgTY6ANmYC3_YYDp02g831wxHYw0UypetMeZlRBqxIhdnaOP6wYA0Mr1s-b5rEZtSEwFIcCpizNCzYMXmjSh7AF8-pyvEExZGro1NtJ323EtvOA6rutDlKquud8oO9tZKWVOd5FXxq9bnCyi1EVqahKIW39WfbJVgi1N5nVH2h0Zmdjp9nttXzJn5P1D0u7sweulmiTtLNMSXVZOnMCHsDinYeHgKQeKplNlik"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-white text-xs font-medium px-2 py-1 bg-black/40 backdrop-blur-sm rounded-md">Original</span>
+</div>
+<div class="flex-none w-64 h-48 rounded-2xl overflow-hidden shadow-sm relative snap-center">
+<img alt="Map view of location" class="w-full h-full object-cover grayscale opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTKQEzKu1_4etzYO8mclsgZN8tItqsWWeIAy39UXH3bPiSdHIqYAtk5kLvVvcku9iASNMCuKcrPznJ_yGWocyUMQYDFlK1WQz4lkS_RhFWBUeGwNnzdVxNRTTdcccb40nVzB9lrtzUX4U9Mqriad0YjD-e79fgmZoX5W4UDFP29vZIN2QRGnsmvJByDnqhHAmev7FZpgadQZcy5QlObRgKGsv3Cyvq1mYcYvVSBSY1GRmWi7NfASSdPcBG-6SyCRZSuW7CDy6XzSU"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-icons-round text-white text-4xl drop-shadow-lg">play_circle</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-gray-200 dark:border-white/5 relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-accent-purple/20 blur-3xl rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between mb-4 relative z-10">
+<div class="flex items-center gap-2">
+<div class="p-1.5 bg-accent-purple/10 rounded-lg">
+<span class="material-icons-round text-accent-purple text-lg">auto_awesome</span>
+</div>
+<span class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">AI Analysis</span>
+</div>
+<span class="text-xs font-mono text-accent-purple bg-accent-purple/10 px-2 py-1 rounded">98% CONFIDENCE</span>
+</div>
+<div class="space-y-3 relative z-10">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Assigned Department</p>
+<p class="text-lg font-bold text-gray-900 dark:text-white">Public Works (Roads)</p>
+</div>
+<span class="material-icons-round text-gray-400 dark:text-gray-600">engineering</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-white/5 rounded-full h-1.5">
+<div class="bg-accent-purple h-1.5 rounded-full w-[98%] shadow-[0_0_10px_rgba(141,106,243,0.5)]"></div>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    Detected severe asphalt deterioration. Automated ticket routed to queue #PW-ROADS-A1.
+                </p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-1 shadow-sm border border-gray-200 dark:border-white/5">
+<div class="relative w-full h-40 rounded-xl overflow-hidden bg-gray-800">
+<img alt="Dark mode map placeholder" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMlRXFeAt7QgaHGUgSyYP8DQjuEro3UFSfl_0bg1Mi5-T-wUJMGF8I6Yu0-FIwzU6M4bFDf5olpYESLMcjiMv4TAxHpCOJ99x5kf24nEkYaPKvHxVNEMYNWbbbdpIjibo0BymiksEDN2rKJj7BCtGEDwJvMfzBbnrc6Qx9_e-oYnbjJFFn6hMULE4dgAnIPXRPQM_VXNLCqMIRwL5ipr61H_wp4MQ-Z1Y8ID2sHlSn1fUIXoMo2K8x0huPnwjLdgcT8lr0CHyfZUM"/>
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-glow border-2 border-white dark:border-background-dark animate-bounce">
+<span class="material-icons-round text-white text-sm">location_on</span>
+</div>
+<div class="w-3 h-1 bg-black/50 blur-[2px] rounded-full mt-1"></div>
+</div>
+<div class="absolute bottom-3 right-3 bg-surface-dark/90 backdrop-blur text-xs px-3 py-1.5 rounded-lg border border-white/10 text-white flex items-center gap-1 shadow-lg">
+<span>Open Maps</span>
+<span class="material-icons-round text-[10px]">open_in_new</span>
+</div>
+</div>
+</div>
+<div class="pt-2">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-icons-round text-primary text-xl">history</span>
+                Progress Timeline
+            </h3>
+<div class="relative space-y-8 pl-2">
+<div class="timeline-line border-l-2 border-dashed border-gray-300 dark:border-gray-700"></div>
+<div class="relative flex gap-4">
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border-2 border-primary flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-icons-round text-primary text-sm">flag</span>
+</div>
+<div class="flex-1 bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-gray-200 dark:border-white/5 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-gray-900 dark:text-white text-sm">Issue Reported</h4>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/5 px-1.5 py-0.5 rounded">10:42 AM</span>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Report submitted by citizen via mobile app. Geotag verified.</p>
+</div>
+</div>
+<div class="relative flex gap-4">
+<div class="relative z-10 w-10 h-10 rounded-full bg-accent-purple flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(141,106,243,0.4)] border-2 border-surface-dark">
+<span class="material-icons-round text-white text-sm animate-pulse">psychology</span>
+</div>
+<div class="flex-1 bg-gradient-to-br from-surface-light to-white dark:from-surface-dark dark:to-[#1E1E28] p-4 rounded-xl border border-accent-purple/30 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 h-0.5 bg-accent-purple w-2/3"></div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-gray-900 dark:text-white text-sm">AI Processing</h4>
+<span class="text-[10px] text-accent-purple bg-accent-purple/10 px-1.5 py-0.5 rounded font-mono">LIVE</span>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Analysing severity. <br/>
+<span class="text-accent-purple mt-1 block">→ Routing to Public Works queue.</span>
+</p>
+</div>
+</div>
+<div class="relative flex gap-4 opacity-50">
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 flex items-center justify-center shrink-0">
+<span class="material-icons-round text-gray-400 text-sm">engineering</span>
+</div>
+<div class="flex-1 p-3 pt-2">
+<h4 class="font-medium text-gray-900 dark:text-white text-sm">Scheduled for Repair</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Pending team assignment.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full group relative flex items-center justify-center gap-3 p-4 rounded-xl bg-surface-light dark:bg-surface-dark border border-primary/30 hover:border-primary transition-all duration-300 overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex -space-x-2 mr-1">
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBnOLcSVLfQcrGlQQV2BpQu3o6ZBeLZIUKCuwwrwXLz8IYwRssF-Y8gUIcrDqo97Ob-OKoZi3YJ0P4n6SwYdPYo4nnvtA8lCP1Z6v-LM9XuZPzh2WiJ6nV-ZuqbwrvrhKkAs2RCWRngEPMbCP8OrvoOLbRn4eNy6uqDhNFFc7nwdWvPdwoIEN52P5e4g7Vukw9H2OG6kH3ea-afCiAK9vUF7BVDBffqQpMCi6AxhQGT2YdLtdiC1j2ogY--Rec7yO8Tf8cwC9KESw"/>
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbzHlY6tmhfUE2qXgVsnWeY0j2DIyFSEvU0kGrKXd_mQiKcNjd9oCFYw5T_Jmo9V2r7UYeq42eJVinvv6_rymETvKJNf1_0TRjMGIomsTvOhdifrIiMeQ9oO3bM5aPIEO8PpAW_u-ilS5ng3zyGdOFmi-YMeECaDABhNOT7wsRAOuamEPeOgGzE83ygr33v5kNua04Dn3sMOFsnWCzmw9n39LLY16v02XDEKRlXHBGXMjwYHyViBzAZoErr0so8hqabN9eSnGJO4A"/>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-[8px] font-bold text-gray-600 dark:text-gray-300">+12</div>
+</div>
+<span class="font-semibold text-primary z-10">Confirm This Issue</span>
+<span class="material-icons-round text-primary text-sm z-10 group-hover:translate-x-1 transition-transform">thumb_up</span>
+</button>
+<p class="text-center text-[10px] text-gray-400 mt-2">14 neighbors have confirmed this issue</p>
+</div>
+<div class="pt-4 pb-8">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white mb-3">Add Additional Context</h3>
+<div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-white/10 rounded-xl p-1 shadow-sm">
+<textarea class="w-full bg-transparent border-0 focus:ring-0 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 resize-none p-3" placeholder="Describe any changes or add details..." rows="3"></textarea>
+<div class="flex justify-between items-center px-2 pb-2 border-t border-gray-100 dark:border-white/5 pt-2">
+<button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 text-gray-400 transition-colors">
+<span class="material-icons-round text-lg">add_a_photo</span>
+</button>
+<button class="bg-white dark:bg-white/10 hover:bg-gray-50 dark:hover:bg-white/20 text-gray-900 dark:text-white text-xs font-semibold py-1.5 px-4 rounded-lg transition-colors border border-gray-200 dark:border-transparent">
+                        Update
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-40">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-glow flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
+<span class="material-icons-round text-2xl">chat</span>
+</button>
+</div>
+
+</body></html>
