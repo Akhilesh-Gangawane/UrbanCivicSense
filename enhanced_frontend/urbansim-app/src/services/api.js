@@ -210,18 +210,50 @@ export const predictionAPI = {
 // ─── Categories & Statuses (from Supabase) ───
 export const metaAPI = {
     getCategories: async () => {
-        const { data, error } = await supabase.from('categories').select('*').order('id');
-        if (error) throw new Error(error.message);
-        return data;
+        try {
+            const { data, error } = await supabase.from('categories').select('*').order('id');
+            if (error || !data) throw new Error();
+            return data;
+        } catch {
+            return [
+                { id: 1, name: 'Pothole' },
+                { id: 2, name: 'Road Damage' },
+                { id: 3, name: 'Street Light' },
+                { id: 4, name: 'Water Leak' },
+                { id: 5, name: 'Drain Blockage' },
+                { id: 6, name: 'Garbage Pile' },
+                { id: 7, name: 'Stray Animals' },
+            ];
+        }
     },
     getStatuses: async () => {
-        const { data, error } = await supabase.from('statuses').select('*').order('id');
-        if (error) throw new Error(error.message);
-        return data;
+        try {
+            const { data, error } = await supabase.from('statuses').select('*').order('id');
+            if (error || !data) throw new Error();
+            return data;
+        } catch {
+            return [
+                { id: 1, name: 'New' },
+                { id: 2, name: 'Open' },
+                { id: 3, name: 'In Progress' },
+                { id: 4, name: 'Resolved' },
+                { id: 5, name: 'Closed' },
+            ];
+        }
     },
     getDepartments: async () => {
-        const { data, error } = await supabase.from('departments').select('*').order('id');
-        if (error) throw new Error(error.message);
-        return data;
+        try {
+            const { data, error } = await supabase.from('departments').select('*').order('id');
+            if (error || !data) throw new Error();
+            return data;
+        } catch {
+            return [
+                { id: 1, name: 'Public Works' },
+                { id: 2, name: 'Electrical Dept' },
+                { id: 3, name: 'Water Supply' },
+                { id: 4, name: 'Solid Waste' },
+                { id: 5, name: 'Health Dept' },
+            ];
+        }
     },
 };

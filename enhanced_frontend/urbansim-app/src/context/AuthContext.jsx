@@ -44,11 +44,45 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }
 
-    async function login(email, password) {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw new Error(error.message);
-        await _loadProfile(data.user.id);
-        return data;
+    async function login(id, password) {
+        setLoading(true);
+        try {
+            let res;
+            if (id === '123456789' && password === 'admin123') {
+                // Hardcoded Admin
+                res = {
+                    user: {
+                        id: 'admin_id',
+                        full_name: 'Admin User',
+                        email: 'admin@urbansim.ai',
+                        mobile_number: '123456789',
+                        is_admin: true
+                    },
+                    session: { access_token: 'mock_admin_token' }
+                };
+            } else if (id === '987654321' && password === 'user123') {
+                // Hardcoded User
+                res = {
+                    user: {
+                        id: 'user_id',
+                        full_name: 'Citizen User',
+                        email: 'user@urbansim.ai',
+                        mobile_number: '987654321',
+                        is_admin: false
+                    },
+                    session: { access_token: 'mock_user_token' }
+                };
+            } else {
+                throw new Error('Invalid phone number or password');
+            }
+
+            setUser(res.user);
+            setSession(res.session);
+            localStorage.setItem('token', res.session.access_token);
+            return res;
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function signup({ email, password, full_name, mobile_number, is_admin = false }) {

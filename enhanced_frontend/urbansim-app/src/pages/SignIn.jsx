@@ -6,7 +6,7 @@ import AuthLayout from '../layouts/AuthLayout';
 export default function SignIn() {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -17,11 +17,12 @@ export default function SignIn() {
         setError('');
         setLoading(true);
         try {
-            await login(email, password);
-            // Auth context will load user profile; check is_admin after brief delay
-            setTimeout(() => {
+            const data = await login(phone, password);
+            if (data.user.is_admin) {
+                navigate('/admin/dashboard');
+            } else {
                 navigate('/dashboard');
-            }, 100);
+            }
         } catch (err) {
             setError(err.message || 'Login failed');
         }
@@ -44,10 +45,10 @@ export default function SignIn() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Email</label>
-                    <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Phone Number</label>
+                    <input type="text" required value={phone} onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-gray-50 dark:bg-[#1C1C21] border border-gray-200 dark:border-gray-700 rounded-xl py-3 px-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-                        placeholder="name@example.com" />
+                        placeholder="Enter phone number" />
                 </div>
                 <div>
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 ml-1">Password</label>
@@ -71,10 +72,19 @@ export default function SignIn() {
                 </button>
             </form>
 
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-                Don&apos;t have an account?{' '}
-                <Link to="/signup" className="text-primary font-medium hover:underline">Sign Up</Link>
-            </p>
+            <div className="mt-8 p-4 bg-gray-50 dark:bg-[#161826] rounded-2xl border border-gray-200 dark:border-gray-800">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Test Credentials</p>
+                <div className="space-y-2">
+                    <div className="flex justify-between text-xs">
+                        <span className="text-gray-500">Admin:</span>
+                        <code className="text-primary">123456789 / admin123</code>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                        <span className="text-gray-500">User:</span>
+                        <code className="text-primary">987654321 / user123</code>
+                    </div>
+                </div>
+            </div>
         </AuthLayout>
     );
 }
