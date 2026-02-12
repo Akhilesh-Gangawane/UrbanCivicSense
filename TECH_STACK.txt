@@ -1,0 +1,478 @@
+================================================================================
+        AI-POWERED SYSTEM FOR SMART URBAN ISSUE REDRESSAL (UrbanCivicSense)
+                        COMPREHENSIVE TECH STACK DOCUMENT
+================================================================================
+
+Project Name    : UrbanCivicSense (UrbanSim AI)
+Description     : An AI-powered urban grievance redressal platform that enables
+                  citizens to report civic infrastructure issues (potholes,
+                  broken streetlights, garbage overflow, etc.) and helps
+                  municipal authorities resolve them efficiently using AI
+                  classification, smart routing, and real-time dashboards.
+
+================================================================================
+                              FRONTEND TECH STACK
+================================================================================
+
+1. React (v19.2.0)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Core frontend UI library. Used to build the entire single-page
+        application (SPA) with a component-based architecture. Powers all
+        10+ pages including Citizen Dashboard, Admin Dashboard, Report Issue
+        wizard, Issues List, Issue Details, Map View, and Settings.
+
+2. React DOM (v19.2.0)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Renders React components into the browser DOM. Works alongside
+        React to mount the application into the HTML root element.
+
+3. React Router DOM (v7.13.0)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Client-side routing and navigation. Handles all page transitions
+        without full page reloads. Implements protected routes (requiring
+        authentication) and role-based routing (admin vs. citizen views).
+        Routes include: /, /signin, /dashboard, /issues, /issues/:id,
+        /report-issue, /map, /settings, /admin/dashboard, /admin/issues,
+        /admin/map, /admin/analytics, /pricing.
+
+4. Vite (v7.3.1)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Build tool and development server. Provides instant Hot Module
+        Replacement (HMR) during development for rapid iteration. Bundles
+        the production build with code-splitting and tree-shaking for
+        optimal performance. Significantly faster than traditional bundlers
+        like Webpack.
+
+5. Tailwind CSS (v3.4.17)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Utility-first CSS framework for styling the entire application.
+        Provides a design system with custom color tokens (primary, surface,
+        background), dark mode support, responsive breakpoints, and
+        consistent spacing. All UI components are styled using Tailwind
+        utility classes for rapid, maintainable design.
+
+6. PostCSS (v8.5.6)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: CSS post-processor that transforms Tailwind CSS directives
+        (@tailwind base, components, utilities) into standard CSS.
+        Works with Autoprefixer to add vendor prefixes for cross-browser
+        compatibility.
+
+7. Autoprefixer (v10.4.24)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: PostCSS plugin that automatically adds vendor prefixes (-webkit-,
+        -moz-, -ms-) to CSS rules. Ensures the application looks consistent
+        across different browsers (Chrome, Firefox, Safari, Edge).
+
+8. Chart.js (v4.5.1) + React-Chartjs-2 (v5.3.1)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Data visualization library. Used in the Admin Analytics Dashboard
+        and Department Performance pages to render interactive charts such
+        as bar charts (issues by department), line charts (trends over time),
+        doughnut charts (status distribution), and area charts.
+
+9. Leaflet (v1.9.4) + React-Leaflet (v5.0.0)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Interactive map library. Used in the Admin Map View and citizen-
+        facing map pages to display reported issues as geo-located markers
+        on an OpenStreetMap tile layer. Citizens can visualize issue density
+        and administrators can manage issues by geographic region.
+
+10. Framer Motion (v12.34.0)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Animation library for React. Provides smooth page transitions,
+         micro-interactions, hover effects, and entrance/exit animations
+         across the application. Enhances the overall user experience with
+         fluid, polished motion design.
+
+11. Lucide React (v0.563.0)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Icon library providing a comprehensive set of modern, clean SVG
+         icons used throughout the application's UI (navigation, buttons,
+         status indicators, action items).
+
+12. Google Material Icons (CDN)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Additional icon set loaded via CDN. Used for Material Design
+         rounded icons in navigation bars, stat cards, action buttons,
+         and the chatbot interface.
+
+13. clsx (v2.1.1)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Utility for conditionally joining CSS class names. Used throughout
+         components to dynamically apply Tailwind classes based on component
+         state (e.g., active/inactive tabs, selected/unselected buttons).
+
+14. tailwind-merge (v3.4.0)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Utility that intelligently merges Tailwind CSS classes, resolving
+         conflicts when multiple classes target the same CSS property.
+         Prevents style conflicts in reusable components.
+
+15. Supabase JS Client (@supabase/supabase-js v2.95.3)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: JavaScript client for Supabase (Backend-as-a-Service). Used in
+         the API service layer to perform CRUD operations on the database
+         (reports, categories, statuses, departments, users) via Supabase's
+         auto-generated REST API. Also handles real-time subscriptions and
+         authentication tokens.
+
+16. ESLint (v9.39.1) + Plugins
+    ─────────────────────────────────────────────────────────────────────────
+    Use: JavaScript/JSX linting tool. Enforces code quality standards,
+         catches common errors, and ensures consistent coding style across
+         the codebase. Plugins include:
+         - eslint-plugin-react-hooks: Enforces React Hooks rules
+         - eslint-plugin-react-refresh: Validates Fast Refresh compatibility
+
+17. @vitejs/plugin-react (v5.1.1)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Vite plugin that adds React support including Fast Refresh (HMR
+         for React components), JSX transformation, and development-time
+         optimizations.
+
+
+================================================================================
+                              BACKEND TECH STACK
+================================================================================
+
+1. Python (v3.11+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Primary backend programming language. All server-side logic,
+        API endpoints, database models, AI/ML inference, and authentication
+        logic are written in Python.
+
+2. FastAPI (v0.109.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Modern, high-performance Python web framework. Serves as the REST
+        API backend handling 50+ endpoints including:
+        - Report CRUD operations (create, read, update, delete)
+        - User authentication and registration
+        - AI text and image prediction endpoints
+        - Dashboard statistics and analytics
+        - Department summary and performance metrics
+        - Admin management endpoints
+        Features automatic OpenAPI/Swagger documentation at /docs.
+
+3. Uvicorn (v0.27.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: ASGI (Asynchronous Server Gateway Interface) server. Runs the
+        FastAPI application with high concurrency support, auto-reload
+        during development, and production-grade performance. Serves the
+        backend on port 8000.
+
+4. SQLAlchemy (v2.0.25+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Python ORM (Object-Relational Mapper). Defines all database models
+        (Report, User, Category, Status, Department, Feedback) as Python
+        classes. Handles database queries, relationships, migrations, and
+        schema management. Supports both async and sync database operations.
+
+5. SQLite (via aiosqlite v0.20.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Lightweight embedded database for local development. Stores all
+        application data (reports, users, categories, etc.) in a single
+        file (urban_db.sqlite3). Provides zero-configuration database setup
+        for immediate development.
+
+6. PostgreSQL (via asyncpg v0.29.0+ & psycopg v3.1.18+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Production-grade relational database. Used for deployment on cloud
+        platforms (Render, Supabase). Handles concurrent connections, complex
+        queries, and large datasets with ACID compliance.
+
+7. Alembic (v1.13.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Database migration tool for SQLAlchemy. Manages schema changes
+        (adding tables, modifying columns, creating indexes) in a version-
+        controlled manner. Generates migration scripts for safe database
+        evolution.
+
+8. Pydantic (v2.6.1+) + Pydantic Settings (v2.12.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Data validation and serialization library. Defines request/response
+        schemas for all API endpoints, ensuring type safety and automatic
+        validation. Pydantic Settings manages environment variables and
+        application configuration.
+
+9. Starlette (v0.36.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: ASGI framework that FastAPI is built upon. Provides middleware
+        support (CORS), static file serving, and the underlying HTTP
+        handling layer. CORS middleware enables the frontend to communicate
+        with the backend across different ports.
+
+10. python-dotenv (v1.0.0+)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Loads environment variables from a .env file. Manages sensitive
+         configuration like database URLs, API keys, and secret keys
+         without hardcoding them in source code.
+
+11. passlib[bcrypt] (v1.7.4+)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Password hashing library. Securely hashes user passwords using
+         the bcrypt algorithm before storing them in the database. Provides
+         password verification during login.
+
+12. python-jose[cryptography] (v3.3.0+)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: JSON Web Token (JWT) library. Creates and verifies JWT access
+         tokens for user authentication. Tokens are generated on login and
+         validated on every protected API request.
+
+13. python-multipart (v0.0.9+)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Parses multipart/form-data requests. Enables the backend to accept
+         file uploads (images) from the Report Issue form for AI-based
+         image classification.
+
+14. email-validator (v2.1.0+)
+    ─────────────────────────────────────────────────────────────────────────
+    Use: Validates email address format during user registration. Ensures
+         only properly formatted email addresses are accepted by the API.
+
+
+================================================================================
+                         AI / MACHINE LEARNING TECH STACK
+================================================================================
+
+1. TensorFlow (v2.16.1+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Deep learning framework. Loads and runs the pre-trained CNN
+        (Convolutional Neural Network) model stored in civic_eye_model.h5
+        for IMAGE CLASSIFICATION. When a citizen uploads a photo of a civic
+        issue, TensorFlow processes the image through the neural network to
+        classify it into categories (pothole, garbage, broken streetlight,
+        etc.) with a confidence score.
+
+2. Scikit-learn (v1.4.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Machine learning library. Powers the TEXT CLASSIFICATION pipeline.
+        Uses a trained text classifier (text_classifier.pkl) with TF-IDF
+        vectorization (tfidf_vectorizer.pkl) to analyze citizen-submitted
+        text descriptions and automatically classify them into issue
+        categories. Also used for training the text classifier model.
+
+3. NumPy (< 2.0.0)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Numerical computing library. Provides array operations and
+        mathematical functions used by TensorFlow and Scikit-learn for
+        data preprocessing, model inference, and numerical computations.
+        Pinned below v2.0.0 for TensorFlow compatibility.
+
+4. SciPy (v1.12.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Scientific computing library. Provides sparse matrix operations
+        and mathematical functions used internally by Scikit-learn's
+        TF-IDF vectorizer and classification algorithms.
+
+5. Joblib (v1.3.2+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Serialization library. Loads the pre-trained ML model files
+        (text_classifier.pkl, tfidf_vectorizer.pkl) from disk into memory
+        at server startup. Provides efficient binary serialization for
+        scikit-learn models.
+
+6. Pillow (v10.2.0+)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Image processing library. Preprocesses uploaded citizen photos
+        (resizing, format conversion, normalization) before feeding them
+        into the TensorFlow CNN model for classification.
+
+7. Google Gemini API (gemini-2.0-flash model)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Large Language Model (LLM) API. Powers the CIVIC LAW CHATBOT on
+        the citizen dashboard. The chatbot provides structured legal
+        guidance about Indian civic laws, responsible authorities (Municipal
+        Corporation, PWD, Electricity Board), applicable legal frameworks
+        (Motor Vehicles Act, Electricity Act, Article 21), and complaint
+        filing processes. Called via REST API (fetch) from the frontend.
+
+
+================================================================================
+                     PRE-TRAINED MODEL FILES (AI ARTIFACTS)
+================================================================================
+
+1. civic_eye_model.h5 (~11 MB)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Pre-trained TensorFlow/Keras CNN model for image-based urban issue
+        classification. Identifies potholes, garbage, broken infrastructure,
+        etc. from uploaded photographs.
+
+2. text_classifier.pkl (~32 KB)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Pre-trained Scikit-learn text classification model. Classifies
+        citizen-submitted text descriptions into issue categories.
+
+3. tfidf_vectorizer.pkl (~23 KB)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Pre-trained TF-IDF (Term Frequency-Inverse Document Frequency)
+        vectorizer. Transforms raw text input into numerical feature vectors
+        that the text classifier model can process.
+
+4. text_dataset.csv (~22 KB)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Training dataset containing labeled text samples of civic issue
+        descriptions. Used by train_text_classifier.py to train and
+        retrain the text classification model.
+
+
+================================================================================
+                        AUTHENTICATION & SECURITY
+================================================================================
+
+1. JWT (JSON Web Tokens)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Stateless authentication mechanism. After successful login, the
+        backend generates a JWT token that the frontend stores in
+        localStorage. This token is sent with every API request in the
+        Authorization header to verify the user's identity and permissions.
+
+2. bcrypt (via passlib)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Industry-standard password hashing algorithm. All user passwords
+        are hashed with bcrypt before database storage. During login, the
+        submitted password is verified against the stored hash.
+
+3. React Context API (AuthContext)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Frontend state management for authentication. Manages user session
+        state (logged in/out), user profile data, role-based access control
+        (admin vs. citizen), and provides login/logout functions to all
+        components via React's Context API.
+
+4. Protected Routes (ProtectedRoute Component)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Route-level access control. Wraps protected pages and redirects
+        unauthenticated users to the sign-in page. Admin-only routes
+        additionally check the user's is_admin flag.
+
+
+================================================================================
+                     DEPLOYMENT & INFRASTRUCTURE
+================================================================================
+
+1. Docker (Dockerfile)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Container runtime. The Dockerfile packages the backend application
+        with all dependencies into a portable container image for consistent
+        deployment across environments (development, staging, production).
+
+2. Render (render.yaml)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Cloud platform for deployment. The render.yaml configuration file
+        defines the web service deployment settings for Render.com,
+        including build commands, start commands, and environment variables.
+
+3. Procfile
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Process declaration file for cloud platforms (Heroku, Render).
+        Specifies the command to start the Uvicorn server in production
+        mode with appropriate worker configuration.
+
+4. Supabase (Backend-as-a-Service)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Hosted PostgreSQL database with auto-generated REST APIs, real-time
+        subscriptions, and built-in authentication. The frontend connects
+        directly to Supabase for CRUD operations on reports, categories,
+        and user data. Provides a managed database layer without requiring
+        custom backend infrastructure for basic operations.
+
+5. Git / GitHub
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Version control system and code hosting platform. All source code is
+        tracked with Git and hosted on GitHub for collaboration, code review,
+        and deployment pipelines.
+
+
+================================================================================
+                        DEVELOPMENT TOOLS
+================================================================================
+
+1. npm (Node Package Manager)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Package manager for JavaScript. Manages all frontend dependencies,
+        runs development scripts (npm run dev, npm run build), and handles
+        the dependency tree via package.json and package-lock.json.
+
+2. pip (Python Package Manager)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Package manager for Python. Installs all backend dependencies
+        listed in requirements.txt into the virtual environment.
+
+3. Python Virtual Environment (.venv)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Isolated Python environment. Keeps project dependencies separate
+        from the system Python installation, preventing version conflicts
+        between projects.
+
+4. Batch/Shell Scripts (start.bat, start.sh)
+   ─────────────────────────────────────────────────────────────────────────
+   Use: Convenience scripts to start both the backend and frontend servers
+        simultaneously. start.bat is for Windows, start.sh is for
+        Linux/macOS.
+
+
+================================================================================
+                        ARCHITECTURE SUMMARY
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────┐
+│                         FRONTEND (React + Vite)                      │
+│  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐               │
+│  │  React 19    │  │ Tailwind CSS │  │ React Router  │               │
+│  │  Components  │  │   Styling    │  │   Navigation  │               │
+│  └──────┬──────┘  └──────────────┘  └───────────────┘               │
+│         │                                                            │
+│  ┌──────┴──────┐  ┌──────────────┐  ┌───────────────┐               │
+│  │  Chart.js   │  │   Leaflet    │  │ Framer Motion │               │
+│  │  Analytics  │  │   Maps       │  │  Animations   │               │
+│  └─────────────┘  └──────────────┘  └───────────────┘               │
+│                                                                      │
+│  ┌──────────────────────────────────────────────────────────────┐    │
+│  │  Civic Law Chatbot (Gemini 2.0 Flash via REST API)           │    │
+│  │  Indian Legal Guidance • Complaint Filing • Authority Info   │    │
+│  └──────────────────────────────────────────────────────────────┘    │
+└──────────────────────┬───────────────────────────────────────────────┘
+                       │ HTTP API Calls
+                       ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                      BACKEND (FastAPI + Python)                      │
+│  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐               │
+│  │  FastAPI     │  │  SQLAlchemy  │  │   JWT Auth    │               │
+│  │  REST API    │  │     ORM      │  │   Security    │               │
+│  └──────┬──────┘  └──────┬───────┘  └───────────────┘               │
+│         │                │                                           │
+│  ┌──────┴──────┐  ┌──────┴───────┐                                  │
+│  │ TensorFlow  │  │ Scikit-learn │                                   │
+│  │ Image CNN   │  │ Text Classif │                                   │
+│  └─────────────┘  └──────────────┘                                  │
+└──────────────────────┬───────────────────────────────────────────────┘
+                       │ SQL Queries
+                       ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│              DATABASE (SQLite / PostgreSQL / Supabase)               │
+│  Tables: reports, users, categories, statuses, departments,         │
+│          department_feedback, department_sla_metrics                 │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+                        TOTAL TECHNOLOGY COUNT
+================================================================================
+
+  Category                    Count
+  ──────────────────────────  ─────
+  Frontend Libraries/Tools      17
+  Backend Libraries/Tools       14
+  AI/ML Libraries                7
+  Pre-trained Models             4
+  Auth & Security                4
+  Deployment & Infra             5
+  Development Tools              4
+  ──────────────────────────  ─────
+  TOTAL                         55
+
+================================================================================
+                           END OF DOCUMENT
+================================================================================

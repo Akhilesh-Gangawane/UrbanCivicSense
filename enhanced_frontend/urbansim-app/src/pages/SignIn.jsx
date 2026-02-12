@@ -71,20 +71,6 @@ export default function SignIn() {
                     ) : 'Sign In'}
                 </button>
             </form>
-
-            <div className="mt-8 p-4 bg-gray-50 dark:bg-[#161826] rounded-2xl border border-gray-200 dark:border-gray-800">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Test Credentials</p>
-                <div className="space-y-2">
-                    <div className="flex justify-between text-xs">
-                        <span className="text-gray-500">Admin:</span>
-                        <code className="text-primary">123456789 / admin123</code>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                        <span className="text-gray-500">User:</span>
-                        <code className="text-primary">987654321 / user123</code>
-                    </div>
-                </div>
-            </div>
         </AuthLayout>
     );
 }

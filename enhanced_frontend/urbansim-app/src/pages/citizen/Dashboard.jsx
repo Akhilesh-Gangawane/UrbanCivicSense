@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { reportsAPI, dashboardAPI } from '../../services/api';
+import CivicLawChatbot from '../../components/CivicLawChatbot';
 
 export default function Dashboard() {
     const { user } = useAuth();
@@ -120,6 +121,9 @@ export default function Dashboard() {
                         )}
                     </section>
                 </main>
+
+                {/* Chatbot Portal */}
+                <CivicLawChatbot />
             </div>
         </div>
     );
