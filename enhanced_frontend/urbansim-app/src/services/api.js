@@ -187,18 +187,10 @@ export const departmentAPI = {
 
 // ─── AI Prediction API (still uses ML backend) ───
 export const predictionAPI = {
-    predictText: async (text) => {
-        const res = await fetch(`${ML_BACKEND_URL}/predict/text`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text }),
-        });
-        if (!res.ok) throw new Error('Prediction failed');
-        return res.json();
-    },
-
-    predictImage: async (formData) => {
-        const res = await fetch(`${ML_BACKEND_URL}/predict/image`, {
+    predictImage: async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch(`${ML_BACKEND_URL}/api/predict-image`, {
             method: 'POST',
             body: formData,
         });

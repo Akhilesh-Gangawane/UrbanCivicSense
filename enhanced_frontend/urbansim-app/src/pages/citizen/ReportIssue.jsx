@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { reportsAPI, metaAPI } from '../../services/api';
+import { reportsAPI, metaAPI, predictionAPI } from '../../services/api';
 import { supabase } from '../../services/supabaseClient';
 
 export default function ReportIssue() {
@@ -57,31 +57,72 @@ export default function ReportIssue() {
         }
     };
 
-    const analyzeImage = (file) => {
+    const analyzeImage = async (file) => {
         setIsAnalyzing(true);
         setAnalysisResult(null);
         setError('');
 
-        // Simulated AI Analysis
-        setTimeout(() => {
-            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-            const randomConfidence = (Math.random() * (0.99 - 0.85) + 0.85).toFixed(2);
-            const randomPriority = ['medium', 'high'][Math.floor(Math.random() * 2)];
+        try {
+            const result = await predictionAPI.predictImage(file);
 
+            if (result.success) {
+                // Map AI prediction to database categories
+                // sanitation_dept -> Garbage Pile (6)
+                // road_dept -> Pothole (1)
+                // electricity_dept -> Street Light (3)
+                // water_dept -> Water Leak (4)
+
+                let mappedCategoryId = 1;
+                let mappedCategoryName = 'Pothole';
+                let suggestedPriority = 'medium';
+
+                if (result.prediction === 'sanitation_dept') {
+                    mappedCategoryId = 6;
+                    mappedCategoryName = 'Garbage Pile';
+                    suggestedPriority = 'high';
+                } else if (result.prediction === 'road_dept') {
+                    mappedCategoryId = 1;
+                    mappedCategoryName = 'Pothole';
+                    suggestedPriority = result.confidence > 90 ? 'high' : 'medium';
+                } else if (result.prediction === 'electricity_dept') {
+                    mappedCategoryId = 3;
+                    mappedCategoryName = 'Street Light';
+                    suggestedPriority = 'medium';
+                } else if (result.prediction === 'water_dept') {
+                    mappedCategoryId = 4;
+                    mappedCategoryName = 'Water Leak';
+                    suggestedPriority = 'high';
+                }
+
+                setAnalysisResult({
+                    categoryName: mappedCategoryName,
+                    categoryId: mappedCategoryId,
+                    confidence: (result.confidence / 100).toFixed(2),
+                    detectedPriority: suggestedPriority,
+                    originalPrediction: result.original_prediction
+                });
+
+                // Auto-populate
+                setCategoryId(mappedCategoryId);
+                setPriority(suggestedPriority);
+                setTitle(`${mappedCategoryName} Issue Detected`);
+            } else {
+                throw new Error('Analysis unsuccessful');
+            }
+        } catch (err) {
+            console.error('Image analysis error:', err);
+            setError('AI Analysis failed. You can still fill details manually.');
+
+            // Fallback to manual if API fails
             setAnalysisResult({
-                categoryName: randomCategory?.name || 'Pothole',
-                categoryId: randomCategory?.id || 1,
-                confidence: randomConfidence,
-                detectedPriority: randomPriority
+                categoryName: 'Unknown',
+                confidence: '0.00',
+                detectedPriority: 'medium',
+                error: true
             });
-
-            // Auto-populate based on AI
-            setCategoryId(randomCategory?.id || 1);
-            setPriority(randomPriority);
-            setTitle(`${randomCategory?.name || 'Urban'} Issue Detected`);
-
+        } finally {
             setIsAnalyzing(false);
-        }, 2000);
+        }
     };
 
     function detectLocation() {
