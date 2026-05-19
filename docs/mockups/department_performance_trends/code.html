@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Department Performance Trends - UrbanSim AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3B82F6", // Blue for trustworthy/tech vibe
+                        "primary-dark": "#2563EB",
+                        "background-light": "#F3F4F6", // Light gray background
+                        "background-dark": "#0F172A", // Deep navy/slate background
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1E293B",
+                        "accent-success": "#10B981",
+                        "accent-warning": "#F59E0B",
+                        "text-light": "#1F2937",
+                        "text-dark": "#E2E8F0",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#94A3B8",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                        'xl': "1rem",
+                        '2xl': "1.5rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(59, 130, 246, 0.3)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>.gauge-circle {
+            transition: stroke-dashoffset 1s ease-out;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-body antialiased transition-colors duration-300 min-h-screen pb-24">
+<header class="sticky top-0 z-50 bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<button class="text-subtext-light dark:text-subtext-dark hover:text-primary transition-colors">
+<span class="material-icons-round text-2xl">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-text-light dark:text-text-dark tracking-tight">Analytics</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-subtext-light dark:text-subtext-dark hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-icons-round text-xl">notifications_none</span>
+</button>
+<img alt="User Profile" class="w-9 h-9 rounded-full border-2 border-white dark:border-gray-700 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ2CMHiXcYrcO-TvuIl9O-lxGFvl3LEnwjUfQbUOz8wu7YAPoljcaozYLdiCQ26HS2kbaHA63CXjNtIa-qINSx804TAfZN0Y6RbaxC5s_UYzXVjI5Oqs_AaAPPNDp7asxgF2-U4ozgdr_YlfXW_HWD7BUxlvOFCbW3rP3Oq8OpcmNMRAOwXQqd9RcZh9954jaBZvH1Go5-wKKlCfnaHGpw34_332nFGjSu0CEQsQInm6LLy0_ZMCCDAo8e4pU67--aNOvDGtx8vfw"/>
+</div>
+</header>
+<main class="px-4 pt-6 space-y-6">
+<div class="flex overflow-x-auto no-scrollbar gap-3 pb-2">
+<button class="flex-shrink-0 px-5 py-2.5 rounded-full bg-primary text-white shadow-glow font-medium text-sm flex items-center gap-2 transition-transform active:scale-95">
+<span class="material-icons-round text-lg">water_drop</span> Water
+            </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark font-medium text-sm flex items-center gap-2 hover:border-primary/50 transition-all active:scale-95">
+<span class="material-icons-round text-lg">add_road</span> Roads
+            </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark font-medium text-sm flex items-center gap-2 hover:border-primary/50 transition-all active:scale-95">
+<span class="material-icons-round text-lg">bolt</span> Power
+            </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark font-medium text-sm flex items-center gap-2 hover:border-primary/50 transition-all active:scale-95">
+<span class="material-icons-round text-lg">delete</span> Waste
+            </button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-1 bg-surface-light dark:bg-surface-dark p-5 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-800 flex flex-col items-center justify-center relative overflow-hidden">
+<h3 class="text-xs font-semibold uppercase tracking-wider text-subtext-light dark:text-subtext-dark mb-3 w-full text-center">Efficiency Score</h3>
+<div class="relative w-28 h-28">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+<circle class="text-gray-200 dark:text-gray-700" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-accent-success gauge-circle" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="25.12" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-text-light dark:text-text-dark">91%</span>
+<span class="text-[10px] text-accent-success font-medium flex items-center">
+<span class="material-icons-round text-xs mr-0.5">trending_up</span> +2.4%
+                        </span>
+</div>
+</div>
+</div>
+<div class="col-span-1 flex flex-col gap-4">
+<div class="flex-1 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-800 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs text-subtext-light dark:text-subtext-dark">Open Issues</span>
+<span class="p-1 rounded bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400">
+<span class="material-icons-round text-sm">warning</span>
+</span>
+</div>
+<span class="text-2xl font-bold text-text-light dark:text-text-dark">42</span>
+<span class="text-[10px] text-subtext-light dark:text-subtext-dark mt-1">12 Critical Priority</span>
+</div>
+<div class="flex-1 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-800 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs text-subtext-light dark:text-subtext-dark">Avg. Resolution</span>
+<span class="p-1 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+<span class="material-icons-round text-sm">timer</span>
+</span>
+</div>
+<span class="text-2xl font-bold text-text-light dark:text-text-dark">4.2h</span>
+<span class="text-[10px] text-accent-success mt-1">-15m vs last week</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-800">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="text-base font-bold text-text-light dark:text-text-dark">Resolution Trends</h2>
+<p class="text-xs text-subtext-light dark:text-subtext-dark">Weekly performance metrics</p>
+</div>
+<select class="bg-gray-50 dark:bg-gray-800 border-none text-xs font-medium text-text-light dark:text-text-dark rounded-lg py-1.5 px-3 focus:ring-1 focus:ring-primary cursor-pointer">
+<option>This Week</option>
+<option>Last Month</option>
+<option>Last Quarter</option>
+</select>
+</div>
+<div class="h-48 w-full">
+<canvas id="resolutionChart"></canvas>
+</div>
+</div>
+<div class="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-5 text-white shadow-glow relative overflow-hidden">
+<div class="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="relative">
+<img alt="Department Head" class="w-14 h-14 rounded-full border-2 border-white/30 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwwmWh8ltb6aghRdgK4aKML4ilEmvtWqmhEONOvMw5XH7Rq9V4m0QKc6X8LPGYApiZC6TSE4Ss48TcmKyiizLdtEmY27fbzmdSyinudFx83U3yuQ99I1RU09_Qt8dDcauCuj9dzENtyw0OeYJFXUmTcRSEw8Kc8e5bG7GQOOJn8mpxfgd0tJT6-0oBdGkgFRMTZts6iK1RykHWzlY0PbgYFPcGId6C5cPLWOVyvU3hesNJ-Z9992jmgEDuGYFs1tqyVKjrYAvf0ws"/>
+<div class="absolute bottom-0 right-0 bg-green-400 w-3.5 h-3.5 rounded-full border-2 border-primary"></div>
+</div>
+<div>
+<h3 class="font-bold text-lg leading-tight">Robert Chen</h3>
+<p class="text-blue-100 text-sm font-medium">Head of Water Dept.</p>
+</div>
+<button class="ml-auto bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2 rounded-lg transition-colors">
+<span class="material-icons-round text-white">chat</span>
+</button>
+</div>
+<div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-sm relative z-10">
+<div class="text-center">
+<div class="text-blue-100 text-xs mb-1">Response Rate</div>
+<div class="font-bold">98%</div>
+</div>
+<div class="w-px bg-white/10"></div>
+<div class="text-center">
+<div class="text-blue-100 text-xs mb-1">Citizens Helped</div>
+<div class="font-bold">12.5k</div>
+</div>
+<div class="w-px bg-white/10"></div>
+<div class="text-center">
+<div class="text-blue-100 text-xs mb-1">Status</div>
+<div class="font-bold text-green-300">Active</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-end mb-4">
+<h2 class="text-lg font-bold text-text-light dark:text-text-dark">Citizen Feedback</h2>
+<a class="text-primary text-sm font-medium hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+<div class="flex justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="flex text-accent-warning text-sm">
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+</div>
+<span class="text-xs text-subtext-light dark:text-subtext-dark font-medium">5.0</span>
+</div>
+<span class="text-[10px] text-subtext-light dark:text-subtext-dark">2h ago</span>
+</div>
+<p class="text-sm text-text-light dark:text-text-dark mb-3 leading-relaxed">
+                        "Incredibly fast response to the pipe burst on 5th Avenue. The crew arrived within 20 minutes. Great job!"
+                    </p>
+<div class="flex items-center gap-2">
+<img alt="Sarah J" class="w-5 h-5 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbzJqJzNMY0KmBm1sXSLHdVWkbAiuGUffy41aucWaO77vxpfhXyJfjgRZfktbPFi4pesNrV8wOdl1FlFPC41aPR5Clj7XFgwv5Sa0K1uUG61ATYBtGT0h6saUUGqptPGLyBe8CjAoKFjxK5970E9DK6F4X3DAgF31QFWztRmt6izwflkg_Xp7mOc79kcDNI9Y8PJLz0SOMK6tQgpqSZYzd3aaztTWHrioCYAZbRjXHpXYSajrPcwsKfHmh1hMD_KoRnDl0cBCmFnw"/>
+<span class="text-xs text-subtext-light dark:text-subtext-dark">Sarah Jenkins</span>
+<span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 mx-1"></span>
+<span class="text-xs text-accent-success bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full font-medium">Resolved</span>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+<div class="flex justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="flex text-accent-warning text-sm">
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round" style="font-size: 16px;">star</span>
+<span class="material-icons-round text-gray-300 dark:text-gray-600" style="font-size: 16px;">star</span>
+<span class="material-icons-round text-gray-300 dark:text-gray-600" style="font-size: 16px;">star</span>
+</div>
+<span class="text-xs text-subtext-light dark:text-subtext-dark font-medium">3.0</span>
+</div>
+<span class="text-[10px] text-subtext-light dark:text-subtext-dark">5h ago</span>
+</div>
+<p class="text-sm text-text-light dark:text-text-dark mb-3 leading-relaxed">
+                        "Water quality has improved, but the pressure is still fluctuating in the evenings. Please check."
+                    </p>
+<div class="flex items-center gap-2">
+<img alt="Mike R" class="w-5 h-5 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZkiNkArQRybRrwmkCoKjUyuKQEVzARhJLxzLYDgEuoMUhRbKHuro_MPfc8m5tfq1jriZBOuForuyonTBvUSzv1MS0a1SbyCwEVQexuFxJimG1Apn0DWOx9VORe2YZW6ocZ2KiJfVnggJJW1RZa7mk8BgErmEY6kD_ozGmUKGEL56DGaGp1evMkMPEOZXP5eW9G3DeRsoiHxesIJCcEZFY7CvwlkBNmeuf-497eZZV-tAadlCMuY2sz5asJ9u52Ge_fgw0ItOI8Ao"/>
+<span class="text-xs text-subtext-light dark:text-subtext-dark">Mike Ross</span>
+<span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 mx-1"></span>
+<span class="text-xs text-accent-warning bg-yellow-100 dark:bg-yellow-900/30 px-2 py-0.5 rounded-full font-medium text-yellow-700 dark:text-yellow-500">In Progress</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 pb-safe pt-2 px-6 shadow-lg z-50">
+<div class="flex justify-between items-center h-16 max-w-lg mx-auto">
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors text-2xl">dashboard</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors text-2xl">map</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Map</span>
+</a>
+<div class="relative -top-6">
+<button class="bg-primary hover:bg-primary-dark text-white p-4 rounded-full shadow-glow transition-all transform hover:scale-105 flex items-center justify-center">
+<span class="material-icons-round text-2xl">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-icons-round text-primary text-2xl">insights</span>
+<span class="text-[10px] font-medium text-primary">Trends</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors text-2xl">settings</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Settings</span>
+</a>
+</div>
+</nav>
+<div class="h-20"></div>
+<script>
+        // Check for dark mode preference to style chart
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Colors
+        const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+        const textColor = isDarkMode ? '#94A3B8' : '#6B7280';
+        const primaryColor = '#3B82F6';
+        const ctx = document.getElementById('resolutionChart').getContext('2d');
+        // Create gradient
+        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)'); // Primary color with opacity
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Issues Resolved',
+                    data: [12, 19, 15, 25, 22, 18, 24],
+                    borderColor: primaryColor,
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    tension: 0.4, // Smooth curve
+                    pointBackgroundColor: '#FFFFFF',
+                    pointBorderColor: primaryColor,
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: isDarkMode ? '#1E293B' : '#FFFFFF',
+                        titleColor: isDarkMode ? '#E2E8F0' : '#1F2937',
+                        bodyColor: isDarkMode ? '#E2E8F0' : '#1F2937',
+                        borderColor: isDarkMode ? '#334155' : '#E5E7EB',
+                        borderWidth: 1,
+                        padding: 10,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + ' Issues Resolved';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: textColor,
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: gridColor,
+                            borderDash: [5, 5],
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: textColor,
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 10
+                            },
+                            padding: 10
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+</body></html>

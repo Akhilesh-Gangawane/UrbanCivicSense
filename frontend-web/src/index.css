@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark transition-colors duration-300;
+  }
+}
+
+.bg-grid-pattern {
+    background-image: radial-gradient(#ff6d5a 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.1;
+}

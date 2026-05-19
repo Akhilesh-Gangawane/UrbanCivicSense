@@ -1,0 +1,220 @@
+<html lang="en"><head><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 font-sans min-h-screen pb-20">```html
+
+
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Citizen Dashboard Overview - UrbanSim AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF6F61", // Coral
+                        secondary: "#FF8A80", // Lighter Coral
+                        "background-light": "#FDFCF5", // Cream
+                        "background-dark": "#111827", // Dark gray for dark mode fallback
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "status-pending": "#F59E0B",
+                        "status-progress": "#3B82F6",
+                        "status-resolved": "#10B981",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                        'xl': "1rem",
+                        '2xl': "1.5rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                },
+            },
+        };
+    </script>
+
+
+<header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center transition-colors duration-300">
+<div class="flex items-center space-x-2">
+<div class="bg-primary p-1.5 rounded-lg">
+<span class="material-icons text-white text-xl">location_city</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">UrbanSim<span class="text-primary">AI</span></h1>
+</div>
+<div class="relative">
+<span class="absolute top-0 right-0 h-2.5 w-2.5 bg-primary rounded-full border-2 border-background-light dark:border-background-dark"></span>
+<span class="material-icons text-gray-500 dark:text-gray-400">notifications</span>
+</div>
+</header>
+<main class="px-5 py-6 space-y-8 max-w-md mx-auto">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Hello, Alex 👋</h2>
+<p class="text-gray-500 dark:text-gray-400 mt-1 text-sm">Here's what's happening in your neighborhood today.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-icons text-gray-400 text-2xl">assignment</span>
+<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Total</span>
+</div>
+<div>
+<span class="text-3xl font-bold text-gray-900 dark:text-white">12</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Reports Submitted</p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-icons text-status-pending text-2xl">hourglass_empty</span>
+<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">Pending</span>
+</div>
+<div>
+<span class="text-3xl font-bold text-gray-900 dark:text-white">3</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Awaiting Review</p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-icons text-status-progress text-2xl">build</span>
+<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">Active</span>
+</div>
+<div>
+<span class="text-3xl font-bold text-gray-900 dark:text-white">4</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Being Fixed</p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-icons text-status-resolved text-2xl">check_circle</span>
+<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400">Done</span>
+</div>
+<div>
+<span class="text-3xl font-bold text-gray-900 dark:text-white">5</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Issues Resolved</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="bg-primary hover:bg-opacity-90 active:scale-95 transition-all text-white p-4 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center space-x-2 group">
+<span class="material-icons group-hover:rotate-90 transition-transform">add</span>
+<span class="font-semibold">Report Issue</span>
+</button>
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all text-gray-800 dark:text-white p-4 rounded-xl shadow-sm flex items-center justify-center space-x-2">
+<span class="material-icons text-primary">map</span>
+<span class="font-semibold">View Map</span>
+</button>
+</div>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Reports</h3>
+<a class="text-sm font-medium text-primary hover:text-secondary" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex items-center space-x-4">
+<div class="h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex-shrink-0 overflow-hidden relative">
+<img alt="Broken streetlight pothole" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfiaioyAeTo39z4CaSklt49S4UUzdS4pmRM1tayNGFcTKVREQmOHj5jMxfb-c2SN4aRsLdMFT7RcIgtayFR4QNsIH2iVJlmdQI7C5V1-LF_0CHVR1ZhoB48DJUJqPGinxJlXycMB0va6cspowXdval2uQqj0tKUtZIaRMedueTzpmsRUkq7pr9G6H4FqNWpu-a_xtrUigkeQPBGFYaC_UwesfGscAhnFufV-n-1d1aC87gZ6dpZVdn1Eu1TznUzs2wAu9vBebffQY"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-semibold text-gray-900 dark:text-white truncate">Broken Streetlight</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Main St &amp; 4th Ave • 2 hrs ago</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300">
+                        In Progress
+                    </span>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex items-center space-x-4">
+<div class="h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex-shrink-0 overflow-hidden relative">
+<img alt="Pothole on road" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf03L307h2NfzDZCV08K6SpGAPUoWaE90vHujf-zLO23PaKa-QllK4skJ9Hsqw9881p00lFf4KWJ--WylKyqI64mTJMqYf4I1pmV-DQBv7_Qoryy9X4D4stIaK0sKnO343RC2O6_tR2_s_6Th8dQK7CWNmXSe_iieH9rpNvHnMjk0SnQIqVy8bp9UNV2_GpFnI_M8lw7buS0710VFXDuL23FojHOEFNXT3X5WqHUnPCzSBSmg9EOpiszlM-1RTpcy4qQN8im3-G6A"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-semibold text-gray-900 dark:text-white truncate">Pothole on Maple Dr</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Near Elementary School • 5 hrs ago</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-300">
+                        Reported
+                    </span>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 flex items-center space-x-4 opacity-75">
+<div class="h-12 w-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex-shrink-0 overflow-hidden relative">
+<img alt="Garbage collection issue" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTtOL-tiodk1jU-AmQRNckw5drmkKrrrbGbJRuoG8DgHvaVgYiNSZOywhA3cBM6-l4O1qG9VBC9E2sMo8VRPN7tznZhmeCdkVMZ4yD7cWRsHOrc1r2DN9cvr749IBzBRJ7Qh7XP3rwAUP0pEipjYlBMHdbp4x1sjmPncx8ojHaegefgoyY5Rjp4WVnzl8wpohAxChFz4Vjcwe4CBxVfYFChyDz7RSrt0-iE-0CM67yqPnR0x7BS3CB979LQKvMFPZceXZCCAF0_us"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-semibold text-gray-900 dark:text-white truncate">Missed Garbage Pickup</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Residential Area B • Yesterday</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300">
+                        Resolved
+                    </span>
+</div>
+</div>
+</section>
+<section class="relative">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Latest Updates</h3>
+<div class="absolute left-6 top-10 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 z-0"></div>
+<div class="space-y-6 relative z-10">
+<div class="flex space-x-4">
+<div class="flex-shrink-0 h-12 w-12 rounded-full bg-white dark:bg-gray-800 border-2 border-primary flex items-center justify-center shadow-sm">
+<span class="material-icons text-primary text-sm">engineering</span>
+</div>
+<div class="pt-1 pb-4">
+<p class="text-sm text-gray-900 dark:text-white"><span class="font-semibold">Public Works</span> commented on <span class="font-medium text-primary">#R-8921</span></p>
+<div class="mt-2 bg-white dark:bg-surface-dark p-3 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm text-xs text-gray-600 dark:text-gray-300 italic">
+                            "Crew has been dispatched to fix the streetlight. ETA 4 hours."
+                        </div>
+<p class="text-xs text-gray-400 mt-2">15 mins ago</p>
+</div>
+</div>
+<div class="flex space-x-4">
+<div class="flex-shrink-0 h-12 w-12 rounded-full bg-white dark:bg-gray-800 border-2 border-green-500 flex items-center justify-center shadow-sm">
+<span class="material-icons text-green-500 text-sm">check</span>
+</div>
+<div class="pt-1">
+<p class="text-sm text-gray-900 dark:text-white">Your report <span class="font-medium text-primary">#R-8840</span> was marked as resolved.</p>
+<p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 px-6 py-3 pb-safe z-50">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<a class="flex flex-col items-center space-y-1 text-primary" href="#">
+<span class="material-icons">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center space-y-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" href="#">
+<span class="material-icons">search</span>
+<span class="text-[10px] font-medium">Explore</span>
+</a>
+<div class="relative -top-5">
+<button class="bg-primary text-white h-14 w-14 rounded-full shadow-lg shadow-primary/40 flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-icons text-2xl">add_a_photo</span>
+</button>
+</div>
+<a class="flex flex-col items-center space-y-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" href="#">
+<span class="material-icons">forum</span>
+<span class="text-[10px] font-medium">Community</span>
+</a>
+<a class="flex flex-col items-center space-y-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" href="#">
+<span class="material-icons">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</div>
+</nav>
+<style>.pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+    </style>
+
+</body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In to UrbanSim AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                    "primary": "#ff6f5c",
+                    "background-light": "#f8f6f5",
+                    "background-dark": "#23110f",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-4 antialiased selection:bg-primary selection:text-white">
+<!-- Main Container -->
+<div class="w-full max-w-sm mx-auto">
+<!-- Logo Section -->
+<div class="flex flex-col items-center mb-8">
+<div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 transform rotate-3">
+<span class="material-icons text-primary text-4xl">location_city</span>
+</div>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white">UrbanSim AI</h1>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Smart city management for everyone</p>
+</div>
+<!-- Login Card -->
+<div class="bg-white dark:bg-[#2c1816] rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none p-8 relative overflow-hidden">
+<!-- Decorative Gradient Blob -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
+<div class="relative z-10">
+<div class="mb-6">
+<h2 class="text-xl font-semibold text-gray-900 dark:text-white">Welcome Back</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Log in to manage your city profile.</p>
+</div>
+<form action="#" class="space-y-4">
+<!-- Email Field -->
+<div class="space-y-1">
+<label class="text-xs font-medium text-gray-700 dark:text-gray-300 ml-1" for="email">Email Address</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-icons text-xl">mail_outline</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-3 border-none bg-gray-50 dark:bg-black/20 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-black/30 transition-all placeholder-gray-400 text-sm" id="email" placeholder="name@example.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1">
+<div class="flex justify-between items-center ml-1">
+<label class="text-xs font-medium text-gray-700 dark:text-gray-300" for="password">Password</label>
+<a class="text-xs font-medium text-primary hover:text-primary/80 transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-icons text-xl">lock_outline</span>
+</span>
+<input class="block w-full pl-10 pr-10 py-3 border-none bg-gray-50 dark:bg-black/20 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-black/30 transition-all placeholder-gray-400 text-sm" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" type="button">
+<span class="material-icons text-xl">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Sign In Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3.5 rounded-full shadow-lg shadow-primary/30 transition-transform active:scale-[0.98] mt-2" type="button">
+                        Sign In
+                    </button>
+</form>
+<!-- Divider -->
+<div class="relative py-6">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-100 dark:border-white/10"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-3 bg-white dark:bg-[#2c1816] text-gray-400 text-xs">Or continue with</span>
+</div>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center px-4 py-2.5 border border-gray-100 dark:border-white/10 rounded-full bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors group" type="button">
+<img alt="Google" class="w-5 h-5 mr-2" data-alt="Google Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvwEUp4XcL6K0rtCmJGmZHsgtzl6UQgHF03wku8mlkTPdjBywnWDleTHH4MEZbTPqUKIs8IZEeuMpsBtsX-VunITMAKXBzOr5qqLMRvjOx9y47oABDkLtFSbnSyob-t05LogtUU1iP6RuQCd5hVX77jkddxciAp6jPn2Ic9PatcnwWreZdESVweqzC0IytjGe3hIbKK5sFAIYIZzAsOK1Lt8w8Ob-2Njk-TVdkUfg_mscNc01NdZaHiKKwraGDPRf84454LepRICM"/>
+<span class="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Google</span>
+</button>
+<button class="flex items-center justify-center px-4 py-2.5 border border-gray-100 dark:border-white/10 rounded-full bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors group" type="button">
+<img alt="GitHub" class="w-5 h-5 mr-2 dark:invert" data-alt="GitHub Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiSWsAB8ecGrlBEDx_32_LWU20zc17jrWNrn2WjRaCuD81h0aVXcb7wRlxe1Ijyptam5BNsifXf9OdxFrLNfJpouQcMGiBKjK-Yh-cUUywXNSZzsO8ipxegCmCE8woKfN8c9ydblSlzkJ_CRq3iOFhgq4KWMU6SG0pFFYYrQZzf6-wg5lVZ9lfHu5wqwL7xmYTbng7zVFYbucQsYR5EfKWDWMyXwp3xaiChpZ5-5Owi8gBJbu-QAsVsAmt5Oo8Wz7s3-8RCEBE3Xg"/>
+<span class="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">GitHub</span>
+</button>
+</div>
+<!-- Sign Up Link -->
+<div class="mt-8 text-center">
+<p class="text-sm text-gray-500 dark:text-gray-400">
+                        Don't have an account? 
+                        <a class="font-semibold text-primary hover:text-primary/80 transition-colors ml-1" href="#">Sign Up</a>
+</p>
+</div>
+</div>
+</div>
+<!-- Footer Info -->
+<div class="mt-8 text-center space-y-2">
+<div class="flex items-center justify-center space-x-4 text-xs text-gray-400 dark:text-gray-500">
+<a class="hover:text-gray-600 dark:hover:text-gray-300" href="#">Privacy Policy</a>
+<span>•</span>
+<a class="hover:text-gray-600 dark:hover:text-gray-300" href="#">Terms of Service</a>
+</div>
+<p class="text-[10px] text-gray-300 dark:text-gray-600">© 2023 UrbanSim AI. All rights reserved.</p>
+</div>
+</div>
+</body></html>

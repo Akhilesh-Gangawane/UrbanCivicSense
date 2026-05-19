@@ -1,0 +1,81 @@
+# ==========================================
+# UrbanSim AI — Unified Repository .gitignore
+# ==========================================
+
+# ---------- Python & FastAPI ----------
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+pip-log.txt
+pip_error.log
+/backend/urban_db.sqlite3
+
+# ---------- Node / npm ----------
+node_modules/
+package-lock.json.backup
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# ---------- React Native & Expo (frontend-mobile) ----------
+/frontend-mobile/.expo/
+/frontend-mobile/dist/
+/frontend-mobile/web-build/
+/frontend-mobile/ios/
+/frontend-mobile/android/
+/frontend-mobile/.kotlin/
+/frontend-mobile/.metro-health-check*
+*.tsbuildinfo
+
+# ---------- React & Vite (frontend-web) ----------
+/frontend-web/dist/
+/frontend-web/build/
+/frontend-web/.env.production
+
+# ---------- ML Models (Optional) ----------
+# We do not ignore .h5 and .pkl here since the models are already checked in and are necessary for the out-of-the-box experience.
+# If they become too large, they can be tracked with Git LFS.
+
+# ---------- Databases ----------
+*.sqlite3
+*.db
+*.db-journal
+*.sqlite3-journal
+
+# ---------- Environments & Secrets ----------
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# ---------- IDEs & Editors ----------
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+*~
+
+# ---------- OS & Cache ----------
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+ehthumbs.db
